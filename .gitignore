@@ -1,6 +1,18 @@
 /target
 Cargo.lock.bak
 
+# Python build artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# Node
+node_modules/
+
 # Credentials never live here — they live in ~/.local/share/ancilla-publishing/
 # These rules belt-and-braces ensure none of them can ever get committed.
 .cargo/credentials.toml

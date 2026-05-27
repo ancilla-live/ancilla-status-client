@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ancilla"
+version = "0.0.1"
+description = "Status client for the Ancilla platform. Fetches and renders the current project status from ancilla.live. Not the Ancilla platform itself."
+readme = "README.md"
+requires-python = ">=3.9"
+license-files = ["LICENSE"]
+keywords = ["ancilla", "status", "client", "cli"]
+authors = [{ name = "Ancilla maintainer" }]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Utilities",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://ancilla.live"
+Repository = "https://github.com/ancilla-live/ancilla-status-client"
+Issues = "https://github.com/ancilla-live/ancilla-status-client/issues"
+
+[project.scripts]
+ancilla = "ancilla.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ancilla*"]
