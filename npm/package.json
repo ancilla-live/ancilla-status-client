@@ -1,0 +1,28 @@
+{
+  "name": "ancilla",
+  "version": "0.0.1",
+  "description": "Status client for the Ancilla platform. Fetches and renders the current project status from ancilla.live. Not the Ancilla platform itself.",
+  "homepage": "https://ancilla.live",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ancilla-live/ancilla-status-client.git",
+    "directory": "npm"
+  },
+  "bugs": {
+    "url": "https://github.com/ancilla-live/ancilla-status-client/issues"
+  },
+  "bin": {
+    "ancilla": "./bin/ancilla.js"
+  },
+  "files": [
+    "bin",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "SEE LICENSE IN LICENSE",
+  "keywords": ["ancilla", "status", "client", "cli"],
+  "engines": {
+    "node": ">=18"
+  },
+  "type": "commonjs"
+}
