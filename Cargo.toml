@@ -1,0 +1,28 @@
+[package]
+name        = "ancilla"
+version     = "0.0.1"
+edition     = "2024"
+rust-version = "1.85"
+description = "Status client for the Ancilla platform. Fetches and renders the current project status from ancilla.live. Not the Ancilla platform itself — see ancilla.live for details."
+homepage    = "https://ancilla.live"
+repository  = "https://github.com/ancilla-live/ancilla-status-client"
+readme      = "README.md"
+keywords    = ["ancilla", "status", "client"]
+categories  = ["command-line-utilities"]
+publish     = true
+
+[dependencies]
+ureq       = { version = "2.10", default-features = false, features = ["tls", "json"] }
+serde      = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[[bin]]
+name = "ancilla"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = "z"
+lto       = true
+strip     = true
+panic     = "abort"
+codegen-units = 1

@@ -1,0 +1,13 @@
+/target
+Cargo.lock.bak
+
+# Credentials never live here — they live in ~/.local/share/ancilla-publishing/
+# These rules belt-and-braces ensure none of them can ever get committed.
+.cargo/credentials.toml
+.cargo/credentials
+.npmrc
+.pypirc
+**/*.token
+**/.env
+**/.env.*
+!.env.example
