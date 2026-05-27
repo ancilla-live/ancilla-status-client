@@ -1,3 +1,10 @@
+ancilla (0.0.1-1~noble2) noble; urgency=medium
+
+  * debian/rules: drop --locked + delete Cargo.lock to handle Ubuntu
+    noble cargo 1.75 (lockfile v3 max) vs upstream v4.
+
+ -- Ancilla maintainer <registry@ancilla.live>  Wed, 27 May 2026 19:24:00 +0530
+
 ancilla (0.0.1-1~noble1) noble; urgency=medium
 
   * Initial PPA upload of the Ancilla status client.

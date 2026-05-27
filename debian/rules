@@ -21,7 +21,11 @@ override_dh_auto_configure:
 	# Launchpad builders allow network during build per debian build policy.
 
 override_dh_auto_build:
-	cargo build --release --locked --manifest-path Cargo.toml
+	# Drop upstream Cargo.lock — it's lockfile v4 (Rust 1.84+) which Ubuntu noble's
+	# cargo 1.75 can't parse. Letting cargo regenerate is acceptable here because
+	# the build resolves only a tiny dep tree (ureq + serde + serde_json + transitives).
+	rm -f Cargo.lock
+	cargo build --release --manifest-path Cargo.toml
 
 override_dh_auto_install:
 	install -Dm755 target/release/ancilla \
