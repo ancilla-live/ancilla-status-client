@@ -180,7 +180,58 @@ No local snap build infrastructure needed — Launchpad-via-Snapcraft does the w
 
 ## §6 Launchpad PPA (apt)
 
-Deferrable. Requires PGP key generation for signing. See `~/docs/projects/ancilla/PACKAGE_NAMESPACE_RESERVATION.md §2.2`.
+Live at `ppa:ancillalive/ancilla`. Source uploaded + accepted 2026-05-27; Launchpad builds binaries for `noble` (Ubuntu 24.04 LTS) on its servers (~30 min per arch).
+
+### What's in the source package
+- `debian/control` — package metadata + build-deps (rustc + cargo from apt)
+- `debian/rules` — cargo-based build via debhelper
+- `debian/changelog` — versioned `0.0.1-1~noble1` (suffix `~noble1` per Ubuntu PPA convention)
+- `debian/copyright` — "see ancilla.live" (matches license-rescission posture)
+- `debian/patches/0001-debian-toolchain-compat.patch` — downgrades upstream Cargo.toml from edition 2024 / rust-version 1.85 to edition 2021 / rust-version 1.74, so Ubuntu noble's stock rustc 1.75 can build it. (Code uses no edition-2024-specific features.)
+- `debian/source/format` — `3.0 (quilt)`
+
+### Signing
+- Maintainer GPG key: `B5FDA55399F4E5184D42063F5C5367E051A11731` (RSA4096; SC + encrypt subkey; expires 2028-05-26)
+- UID: `Ancilla maintainer <registry@ancilla.live>`
+- Key on `keyserver.ubuntu.com`; registered at https://launchpad.net/~ancillalive/+editpgpkeys
+- Passphrase: stored in Master's password manager
+- Private key location: `~/.gnupg/` (mode 700, owner-only)
+
+### Rebuild + re-upload procedure
+```bash
+cd ~/code/ancilla-live/ancilla-status-client
+
+# Sanity: ensure Cargo.toml is unpatched (edition=2024) before building orig.tar.gz
+quilt pop -a 2>/dev/null || true
+
+# Rebuild orig.tar.gz from CURRENT (clean) source
+cp -r . /tmp/ancilla-0.0.1
+find /tmp/ancilla-0.0.1/.git -delete 2>/dev/null
+find /tmp/ancilla-0.0.1/target -delete 2>/dev/null
+find /tmp/ancilla-0.0.1/debian -delete 2>/dev/null
+tar czf ../ancilla_0.0.1.orig.tar.gz -C /tmp ancilla-0.0.1
+find /tmp/ancilla-0.0.1 -delete
+
+# Build source package + sign
+./scripts/publish-ppa.sh
+
+# Remove dput tracker file if re-uploading
+rm -f ../ancilla_*~noble*_source.ppa.upload
+
+# Upload
+./scripts/publish-ppa.sh --confirm ancillalive
+```
+
+### Install path for users (after Launchpad finishes building)
+```bash
+sudo add-apt-repository ppa:ancillalive/ancilla
+sudo apt update
+sudo apt install ancilla
+```
+
+### Common rejection causes
+- **"Reversed (or previously applied) patch detected"** → Cargo.toml in orig.tar.gz is in patched state. Run `quilt pop -a` before building orig.tar.gz.
+- **"Package was already uploaded to ppa"** → dput tracker file from previous attempt blocks re-upload. Delete `../ancilla_*_source.ppa.upload` and retry.
 
 ---
 
@@ -219,7 +270,20 @@ Not urgent pre-launch.
 | npm | Per-publish + 90-day | Revoke after publish |
 | PyPI | N/A — OIDC trusted publishing | No tokens to rotate |
 | Docker Hub | 90-day | Revoke when expired |
-| Snapcraft | 90-day | Revoke when expired |
+| Snapcraft | N/A — `snapcraft login` keeps creds in snapd keyring | `snapcraft logout` when done |
+| Launchpad PPA | GPG key rotated annually | Renew `gpg --quick-add-key` on expiry; re-upload to keyserver.ubuntu.com |
+
+## §9.5 Pending Master-side revocations (2026-05-27)
+
+These tokens were used during initial publish; should be revoked at the registry side:
+
+- [ ] **crates.io** — revoke `ancilla-first-publish-2026-05-27` at https://crates.io/settings/tokens
+- [ ] **npm** — revoke `ancilla-first-publish-2026-05-27` at https://www.npmjs.com/settings/covenator/tokens
+- [ ] **Docker Hub** — revoke `ancilla-publish-2026-05-27` at https://hub.docker.com/settings/security
+- [ ] **Cloudflare** — revoke the temporary "ancilla" API token at https://dash.cloudflare.com/profile/api-tokens (used once for email-routing rule)
+- [ ] **Cloudflare tunnel** — rotate the cloudflared tunnel credentials inadvertently echoed during early discovery; at Cloudflare dashboard → Networks → Tunnels
+
+Local copies of tokens already shredded — registry-side revocation is independent.
 
 ---
 
@@ -234,4 +298,5 @@ Append each publish to the bottom of this file. Date, version, registry, status.
 | 2026-05-27 | 0.0.1 | PyPI | ✅ live | Published as `ancilla-live` (bare `ancilla` taken by an unrelated quant-finance lib). https://pypi.org/project/ancilla-live/. Trusted Publishing (OIDC) — zero tokens on disk. |
 | 2026-05-27 | 0.0.1 | Docker Hub | ✅ live | Published as `ancillalive/ancilla` (bare `ancilla` taken since 2015). https://hub.docker.com/r/ancillalive/ancilla. Multi-arch amd64 + arm64. Alpine 3.20 base, ~18 MB. |
 | 2026-05-27 | 0.0.1 | Homebrew tap | ✅ live | Tap at `ancilla-live/homebrew-ancilla`. Cargo-build formula. |
-| 2026-05-27 | 0.0.1 | Snap Store | ⏳ building | Snap name `ancilla` registered under publisher `ancillalive`. Auto-build via Snapcraft GitHub integration triggered on commit `758f9bb`. Builds for amd64 + arm64. |
+| 2026-05-27 | 0.0.1 | Launchpad PPA | ⏳ building | Source accepted to `ppa:ancillalive/ancilla` 2026-05-27 ~19:07 IST after fix of orig.tar.gz cleanliness. Launchpad builds amd64 + arm64 binaries. GPG-signed by maintainer key `B5FDA553...A11731`. |
+| 2026-05-27 | 0.0.1 | Snap Store | ⏳ remote-building | Snap name `ancilla` registered under publisher `ancillalive`. Initial Snapcraft Build Service (GitHub-connected) succeeded on Launchpad but artifacts never auto-uploaded to store. Switched to local `snapcraft remote-build` flow + manual `snapcraft upload`. |
