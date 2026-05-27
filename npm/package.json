@@ -12,7 +12,7 @@
     "url": "https://github.com/ancilla-live/ancilla-status-client/issues"
   },
   "bin": {
-    "ancilla": "./bin/ancilla.js"
+    "ancilla": "bin/ancilla.js"
   },
   "files": [
     "bin",
@@ -20,7 +20,12 @@
     "README.md"
   ],
   "license": "SEE LICENSE IN LICENSE",
-  "keywords": ["ancilla", "status", "client", "cli"],
+  "keywords": [
+    "ancilla",
+    "status",
+    "client",
+    "cli"
+  ],
   "engines": {
     "node": ">=18"
   },
