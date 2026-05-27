@@ -3,9 +3,9 @@ requires = ["setuptools>=70"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ancilla"
+name = "ancilla-live"
 version = "0.0.1"
-description = "Status client for the Ancilla platform. Fetches and renders the current project status from ancilla.live. Not the Ancilla platform itself."
+description = "Status client for the Ancilla platform. Fetches and renders the current project status from ancilla.live. Installs as the `ancilla` command. Not the Ancilla platform itself."
 readme = "README.md"
 requires-python = ">=3.9"
 license-files = ["LICENSE"]

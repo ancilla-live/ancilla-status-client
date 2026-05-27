@@ -7,10 +7,10 @@ A small command-line client that fetches the current development status of the [
 ## Install
 
 ```bash
-cargo install ancilla
+pip install ancilla-live
 ```
 
-(also distributed via npm / PyPI / Homebrew / etc. — see [ancilla.live](https://ancilla.live) for current channels.)
+(The PyPI distribution is `ancilla-live` because `ancilla` is taken by an unrelated quantitative-finance library. The installed CLI is still `ancilla`. Also available as `cargo install ancilla` and `npm i -g ancilla` — see [ancilla.live](https://ancilla.live) for all channels.)
 
 ## Usage
 
