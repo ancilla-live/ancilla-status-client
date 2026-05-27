@@ -41,9 +41,10 @@ if ! gpg --list-secret-keys "$KEY_EMAIL" >/dev/null 2>&1; then
     exit 1
 fi
 
-# Build source package (-S = source-only; -sa = include orig.tar.gz)
+# Build source package (-S = source-only; -sa = include orig.tar.gz; -d = skip build-deps
+# check since we're not building binaries locally — Launchpad does that).
 bold "→ Building source package..."
-debuild -S -sa -k"$KEY_EMAIL"
+debuild -S -sa -d -k"$KEY_EMAIL"
 
 # Show what was built
 green "✓ Source package built:"
