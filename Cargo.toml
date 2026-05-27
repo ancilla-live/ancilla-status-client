@@ -10,6 +10,7 @@ readme      = "README.md"
 keywords    = ["ancilla", "status", "client"]
 categories  = ["command-line-utilities"]
 publish     = true
+license-file = "LICENSE"
 exclude     = ["PUBLISHING.md", "scripts/", ".github/", "/target", "*.bak"]
 
 [dependencies]
