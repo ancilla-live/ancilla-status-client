@@ -1,0 +1,14 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: ancilla
+Upstream-Contact: registry@ancilla.live
+Source: https://github.com/ancilla-live/ancilla-status-client
+
+Files: *
+Copyright: 2026 Ancilla maintainer
+License: see-ancilla-live
+ No license has been declared for the Ancilla project at this time.
+ .
+ Visit https://ancilla.live for project status.
+
+License: see-ancilla-live
+ See https://ancilla.live for project status.

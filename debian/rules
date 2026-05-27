@@ -1,0 +1,36 @@
+#!/usr/bin/make -f
+#
+# debian/rules — Ancilla status client (Rust)
+#
+# Builds via the system cargo + rustc. Patched Cargo.toml downgrades
+# edition to 2021 + rust-version to 1.74 (see debian/patches/) so the
+# package builds on Ubuntu noble's stock toolchain (rustc 1.75).
+#
+
+export DH_VERBOSE = 1
+
+# Cargo writes to $HOME during build; provide a build-local one.
+export CARGO_HOME = $(CURDIR)/.cargo-home
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	mkdir -p $(CARGO_HOME)
+	# Use vendored deps in offline mode if present; otherwise hit crates.io.
+	# Launchpad builders allow network during build per debian build policy.
+
+override_dh_auto_build:
+	cargo build --release --locked --manifest-path Cargo.toml
+
+override_dh_auto_install:
+	install -Dm755 target/release/ancilla \
+	  debian/ancilla/usr/bin/ancilla
+
+override_dh_auto_test:
+	# Skip — `cargo test` runs no tests in this package and would
+	# require network during build.
+
+override_dh_auto_clean:
+	rm -rf $(CARGO_HOME) target
+	dh_auto_clean

@@ -1,0 +1,32 @@
+Source: ancilla
+Section: utils
+Priority: optional
+Maintainer: Ancilla maintainer <registry@ancilla.live>
+Build-Depends: debhelper-compat (= 13),
+               rustc (>= 1.75),
+               cargo,
+               libssl-dev,
+               pkg-config,
+               ca-certificates
+Standards-Version: 4.7.0
+Homepage: https://ancilla.live
+Vcs-Browser: https://github.com/ancilla-live/ancilla-status-client
+Vcs-Git: https://github.com/ancilla-live/ancilla-status-client.git
+Rules-Requires-Root: no
+
+Package: ancilla
+Architecture: amd64 arm64
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         ca-certificates
+Description: status client for the Ancilla platform
+ Status client for the Ancilla platform (not the platform itself).
+ Fetches and renders the current project status from ancilla.live.
+ .
+ The Ancilla platform is in active development; no platform code has
+ been released yet. This is a small client that prints the live
+ project status so people who hear about Ancilla can see where it is
+ without checking the website.
+ .
+ Pre-release Ancilla code, when shared privately, is sandbox-only -
+ never run with real personal data.

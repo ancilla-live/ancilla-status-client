@@ -1,0 +1,22 @@
+Description: Downgrade Cargo.toml edition + rust-version for Ubuntu noble toolchain.
+ Upstream uses edition = "2024" + rust-version = "1.85" (stabilised Feb 2025).
+ Ubuntu noble (24.04 LTS) ships rustc 1.75 in apt. Code uses no
+ edition-2024-specific features, so we downgrade in the Debian source
+ package only. Upstream Cargo.toml is unchanged.
+Origin: vendor, Debian-specific
+Author: Ancilla maintainer <registry@ancilla.live>
+Forwarded: not-needed
+
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -1,8 +1,8 @@
+ [package]
+ name        = "ancilla"
+ version     = "0.0.1"
+-edition     = "2024"
+-rust-version = "1.85"
++edition     = "2021"
++rust-version = "1.74"
+ description = "Status client for the Ancilla platform. Fetches and renders the current project status from ancilla.live. Not the Ancilla platform itself — see ancilla.live for details."
+ homepage    = "https://ancilla.live"
+ repository  = "https://github.com/ancilla-live/ancilla-status-client"
