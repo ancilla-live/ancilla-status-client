@@ -1,0 +1,9 @@
+target/
+.git/
+.github/
+npm/
+python/
+scripts/
+*.md
+.gitignore
+.dockerignore
