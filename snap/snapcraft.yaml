@@ -1,0 +1,41 @@
+name: ancilla
+base: core24
+version: '0.0.1'
+summary: Status client for the Ancilla platform (not the platform itself).
+description: |
+  A small command-line client that fetches the current development status of
+  the Ancilla platform from ancilla.live and renders it.
+
+  This is NOT the Ancilla platform itself. The Ancilla platform is in active
+  development; no code has been released yet. Visit https://ancilla.live for
+  project status.
+
+  Pre-release Ancilla code, when shared privately, is sandbox-only — never
+  run with real personal data.
+
+contact: hello@ancilla.live
+issues: https://github.com/ancilla-live/ancilla-status-client/issues
+source-code: https://github.com/ancilla-live/ancilla-status-client
+website: https://ancilla.live
+
+grade: stable
+confinement: strict
+
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+
+apps:
+  ancilla:
+    command: bin/ancilla
+    plugs:
+      - network
+
+parts:
+  ancilla:
+    plugin: rust
+    source: ..
+    source-type: local
+    build-packages:
+      - pkg-config
+      - libssl-dev
