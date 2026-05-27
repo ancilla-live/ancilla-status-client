@@ -34,7 +34,7 @@ apps:
 parts:
   ancilla:
     plugin: rust
-    source: ..
+    source: .
     source-type: local
     build-packages:
       - pkg-config
