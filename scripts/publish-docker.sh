@@ -16,7 +16,7 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TOKEN_FILE="$HOME/.local/share/ancilla-publishing/docker-hub.token"
-NAMESPACE="ancilla-live"
+NAMESPACE="ancillalive"
 IMAGE="ancilla"
 VERSION="0.0.1"
 
