@@ -287,6 +287,16 @@ Local copies of tokens already shredded — registry-side revocation is independ
 
 ---
 
+## §9.6 Identity discipline (locked 2026-05-27)
+
+After an initial security audit on 2026-05-27 found Master's personal Gmail address + real name in the git commit history of two public repos (`ancilla-status-client` + `homebrew-ancilla`), the following hardening was applied:
+
+1. **Global git config:** `user.email` set to `13875865+covenator@users.noreply.github.com` (the GitHub noreply form). All FUTURE commits across the user's entire system default to this. Personal-email opt-in requires explicit repo-local override.
+2. **Repo-local config:** the two affected repos have explicit `user.email` + `user.name = covenator` for belt-and-braces.
+3. **Cleanup:** the two affected repos were rewritten with `git filter-repo --email-callback --name-callback` (mapping `rjaswant6@gmail.com` → noreply form; `Jaswant R` → `covenator`), then **deleted + recreated** to fully wipe the orphan commit objects from GitHub's server (the alternative force-GC-via-Support route was not needed). The recreate preserved repo NAME + description + topics + visibility, so all URL-based downstream automations (crates.io repo link, npm repo link, PyPI repo link, Docker Hub link, Homebrew formula source) continued to work. The `pypi-publish` GitHub Environment was recreated for OIDC Trusted Publishing.
+
+**Lesson for future public-repo work:** always verify `git config user.email` shows the noreply form before the first commit on a public repo. The pre-push safety hook in `~/projects/ancilla/scripts/git-hooks/pre-push` should be extended to fail-loud on personal-email commits (TODO).
+
 ## §10 Audit log
 
 Append each publish to the bottom of this file. Date, version, registry, status.
