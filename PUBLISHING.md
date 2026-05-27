@@ -170,7 +170,11 @@ docker logout
 
 ## §5 Snapcraft
 
-Deferrable. Requires Ubuntu One account + `snap register ancilla` within 6 months of intent. Not urgent for namespace-claim purposes — Snap is a lower squat-risk than crates.io/npm/PyPI.
+Account `ancillalive` registered 2026-05-27 with `registry@ancilla.live`. Snap name `ancilla` claimed via web (no CLI needed). Auto-build pipeline configured via https://snapcraft.io/build linked to `ancilla-live/ancilla-status-client` on GitHub. Builds queued on every push to main; releases to `latest/stable` channel on successful build.
+
+`snapcraft.yaml` lives at repo root. Uses `core24` base with `platforms: amd64, arm64` (NOT the deprecated `architectures` key). Build plugin: `rust`. Confinement: `strict`. Plug: `network` only.
+
+No local snap build infrastructure needed — Launchpad-via-Snapcraft does the work.
 
 ---
 
@@ -182,7 +186,17 @@ Deferrable. Requires PGP key generation for signing. See `~/docs/projects/ancill
 
 ## §7 Homebrew tap
 
-Just create the repo `github.com/ancilla-live/homebrew-ancilla` with a `Formula/ancilla.rb` file. No external account needed; tied to the GitHub org. Deferrable until a release binary exists to download.
+Tap repo: https://github.com/ancilla-live/homebrew-ancilla (public, created 2026-05-27).
+
+Formula: `Formula/ancilla.rb` — uses cargo to install from the crates.io tarball (SHA256 pinned). Requires `rust` as build dependency.
+
+Install path for end users:
+```bash
+brew tap ancilla-live/ancilla
+brew install ancilla
+```
+
+(Brew normalizes the `homebrew-ancilla` repo name to the `ancilla` tap.)
 
 ---
 
@@ -215,4 +229,9 @@ Append each publish to the bottom of this file. Date, version, registry, status.
 
 | Date | Version | Registry | Status | Notes |
 |---|---|---|---|---|
-| _pending_ | 0.0.1 | crates.io | not yet | first publish |
+| 2026-05-27 | 0.0.1 | crates.io | ✅ live | Published as `ancilla`. https://crates.io/crates/ancilla. License-file pointer; no SPDX commitment. |
+| 2026-05-27 | 0.0.1 | npm | ✅ live | Published as `ancilla` under user `covenator`. https://www.npmjs.com/package/ancilla. JS implementation (stdlib `fetch`). Bypass-2FA Granular token used + revoked post-publish. |
+| 2026-05-27 | 0.0.1 | PyPI | ✅ live | Published as `ancilla-live` (bare `ancilla` taken by an unrelated quant-finance lib). https://pypi.org/project/ancilla-live/. Trusted Publishing (OIDC) — zero tokens on disk. |
+| 2026-05-27 | 0.0.1 | Docker Hub | ✅ live | Published as `ancillalive/ancilla` (bare `ancilla` taken since 2015). https://hub.docker.com/r/ancillalive/ancilla. Multi-arch amd64 + arm64. Alpine 3.20 base, ~18 MB. |
+| 2026-05-27 | 0.0.1 | Homebrew tap | ✅ live | Tap at `ancilla-live/homebrew-ancilla`. Cargo-build formula. |
+| 2026-05-27 | 0.0.1 | Snap Store | ⏳ building | Snap name `ancilla` registered under publisher `ancillalive`. Auto-build via Snapcraft GitHub integration triggered on commit `758f9bb`. Builds for amd64 + arm64. |
